@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>S盒CPA侧信道攻击 | 丹青</title><meta name="keywords" content="experiment"><meta name="author" content="MXBG"><meta name="copyright" content="MXBG"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="—————————————202&#x2F;12&#x2F;24 更新————————————— 如若有图片不能查看，可复制图片链接以浏览。—————————————202&#x2F;12&#x2F;23 更新—————————————这个实验和的另一篇文章侧信道实验实验二 S盒DPA侧信道攻击相似处很多，起码在完善Sboxcpa攻击-student.py程序阶段是一样的。因为很近似，所以一些细节">
+<meta property="og:type" content="article">
+<meta property="og:title" content="S盒CPA侧信道攻击">
+<meta property="og:url" content="http://example.com/2021/12/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%B8%89%20S%E7%9B%92CPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="丹青">
+<meta property="og:description" content="—————————————202&#x2F;12&#x2F;24 更新————————————— 如若有图片不能查看，可复制图片链接以浏览。—————————————202&#x2F;12&#x2F;23 更新—————————————这个实验和的另一篇文章侧信道实验实验二 S盒DPA侧信道攻击相似处很多，起码在完善Sboxcpa攻击-student.py程序阶段是一样的。因为很近似，所以一些细节">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2021-12-23T16:11:30.000Z">
+<meta property="article:modified_time" content="2022-03-18T06:03:46.019Z">
+<meta property="article:author" content="MXBG">
+<meta property="article:tag" content="experiment">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/12/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%B8%89%20S%E7%9B%92CPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'S盒CPA侧信道攻击',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-18 14:03:46'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="//at.alicdn.com/t/font_3252018_omzfakobxkq.css"><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="丹青" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avator.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> Book</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw iconfont icon-bussiness-man"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">丹青</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> Book</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw iconfont icon-bussiness-man"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">S盒CPA侧信道攻击</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-23T16:11:30.000Z" title="发表于 2021-12-24 00:11:30">2021-12-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-18T06:03:46.019Z" title="更新于 2022-03-18 14:03:46">2022-03-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/SCA/">SCA</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="S盒CPA侧信道攻击"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>—————————————202&#x2F;12&#x2F;24 更新—————————————</p>
+<p>如若有图片不能查看，可复制图片链接以浏览。<br>—————————————202&#x2F;12&#x2F;23 更新—————————————<br>这个实验和的另一篇文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/Reaper_MXBG/article/details/122019954">侧信道实验实验二 S盒DPA侧信道攻击</a>相似处很多，起码在完善Sboxcpa攻击-student.py程序阶段是一样的。因为很近似，所以一些细节我就没有赘述，想看更多细节的可以移步至我的另一篇文章。<br>——————————————-起始内容——————————————-</p>
+<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><ol>
+<li>掌握S盒侧信道攻击的基本原理；</li>
+<li>掌握cpa攻击基本原理和方法。</li>
+</ol>
+<h2 id="实验人数"><a href="#实验人数" class="headerlink" title="实验人数"></a>实验人数</h2><p>每组1人</p>
+<h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><p>Windows</p>
+<h2 id="实验原理"><a href="#实验原理" class="headerlink" title="实验原理"></a>实验原理</h2><ol>
+<li><p>测量阶段，选取随机数量明文和设定好的正确密钥进行异或，得到的6bit结果作为S盒的输入，S盒的输出需统计二进制中1的个数，作为汉明重量，所有输出得到一个汉明重量数组。</p>
+</li>
+<li><p>攻击阶段，需要遍历密钥的所有可能，每次遍历都需经历测量阶段，最后得到所有猜测密钥的汉明重量数组，且每个都需和正确密钥得到的汉明重量数组共同计算相关系数数组，公式如下<br>$$<br>corr&#x3D;\frac{\sum_n^{}{\left(x_i-\overline{x}  \right)}\cdot \left( y_i-\overline{y} \right)}{\sqrt{\sum_n^{}{\left( x_i-\overline{x} \right) ^2}}\cdot \sqrt{\sum_n^{}{\left( y_i-\overline{y} \right) ^2}}}<br>$$<br>其中，$\overline{x}&#x3D;\frac{1}{n}\sum_n^{}{x_i}$，$\overline{y}&#x3D;\frac{1}{n}\sum_n^{}{y_i}$表示均值。</p>
+</li>
+</ol>
+<h2 id="实验内容"><a href="#实验内容" class="headerlink" title="实验内容"></a>实验内容</h2><ol>
+<li><p>完成Sboxdpa仿真-student.py程序中的空缺部分</p>
+<ul>
+<li><p>补充n、plaintext、keyTrue</p>
+</li>
+<li><p>补充HWfun函数，返回输入的汉明重量</p>
+</li>
+<li><p>补充主函数，得到输出相应的汉明重量向量</p>
+</li>
+</ul>
+</li>
+<li><p>完成Sboxcpa攻击-student.py程序中的空缺部分：</p>
+<ul>
+<li><p>补充plaintext、power_std</p>
+</li>
+<li><p>补充相关系数Corrfun函数，返回两个向量的相关系数</p>
+</li>
+<li><p>补充主函数，猜测所有可能的密钥，对每个密钥计算相关系数，求出相关系数最大的猜测密钥</p>
+</li>
+</ul>
+</li>
+<li><p>实验测试2组数据</p>
+</li>
+</ol>
+<h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><h3 id="完善Sboxdpa仿真-student-py程序"><a href="#完善Sboxdpa仿真-student-py程序" class="headerlink" title="完善Sboxdpa仿真-student.py程序"></a>完善Sboxdpa仿真-student.py程序</h3><h4 id="补充变量"><a href="#补充变量" class="headerlink" title="补充变量"></a>补充变量</h4><p>补充n、plaintext、keyTrue三个变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">9</span>	<span class="comment">#第一组明文数组长度</span></span><br><span class="line"><span class="comment">#n = 64 #第二组明文数组长度</span></span><br><span class="line">plainlist = [<span class="number">41</span>, <span class="number">35</span>, <span class="number">62</span>, <span class="number">4</span>, <span class="number">33</span>, <span class="number">44</span>, <span class="number">22</span>, <span class="number">46</span>, <span class="number">18</span>]	<span class="comment">#第一组明文数组</span></span><br><span class="line"><span class="comment">#plainlist = [3, 10, 3, 1, 9, 48, 2, 59, 50, 32, 7, 27, 27, 54, 32, 52, 39, 2, 11, 41, 42, 9, 7, 62, 63, 62, 56, 40, 19, 55, 57, 40, 7, 7, 37, 34, 15, 26, 18, 58, 32, 9, 56, 1, 42, 35, 60, 7, 43, 56, 26, 28, 16, 25, 2, 57, 47, 44, 62, 27, 9, 31, 6, 5] #第二组明文数组</span></span><br><span class="line">keyTrue = <span class="number">49</span>	<span class="comment">#加密所用密钥</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="完善HWfun函数"><a href="#完善HWfun函数" class="headerlink" title="完善HWfun函数"></a>完善HWfun函数</h4><p>此函数本质上是计算整数转化为二进制后中1的个数，可以使用快速统计的方法。</p>
+<p>补充代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">HWfun</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="comment"># 统计输入num的汉明重量并返回</span></span><br><span class="line">    ans = <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> num == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> num &gt; <span class="number">0</span>:</span><br><span class="line">        num &amp;= (num - <span class="number">1</span>)</span><br><span class="line">        ans += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+
+<h4 id="完善主函数"><a href="#完善主函数" class="headerlink" title="完善主函数"></a>完善主函数</h4><p>使用表格美化库完善输出。</p>
+<p>补充代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># 补充：S盒输出对应汉明重量列表</span></span><br><span class="line">    table = pt.PrettyTable()</span><br><span class="line">    hw_std = []</span><br><span class="line">    HWout = sboxout(n, plainlist, keyTrue)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        hw_std.append(HWfun(HWout[i]))</span><br><span class="line">    table.add_column(<span class="string">&#x27;序号&#x27;</span>,[i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n+<span class="number">1</span>)])</span><br><span class="line">    table.add_column(<span class="string">&#x27;明文-十进制&#x27;</span>,[index <span class="keyword">for</span> index <span class="keyword">in</span> plainlist])</span><br><span class="line">    table.add_column(<span class="string">&#x27;S盒输出-十进制&#x27;</span>, [index <span class="keyword">for</span> index <span class="keyword">in</span> HWout])</span><br><span class="line">    table.add_column(<span class="string">&#x27;S盒输出-汉明重量&#x27;</span>, [index <span class="keyword">for</span> index <span class="keyword">in</span> hw_std])</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure>
+
+<h4 id="程序运行结果"><a href="#程序运行结果" class="headerlink" title="程序运行结果"></a>程序运行结果</h4><p><img src="https://img-blog.csdnimg.cn/img_convert/6a932427825b14d460c6bf6f10c76497.png#pic_center" alt="3-1.1"></p>
+<center>
+    <b>
+        <small> 
+            图6.1&nbsp&nbsp&nbsp&nbsp 长度为9的明文数组表格输出
+        </small>
+    </b>
+</center>
+![3-1.2](https://img-blog.csdnimg.cn/img_convert/f2c4c925bc3612620762618e8f0a6bcf.png#pic_center)
+
+<center>
+    <b>
+        <small> 
+            图6.2&nbsp&nbsp&nbsp&nbsp 长度为64的明文数组表格输出
+        </small>
+    </b>
+</center>
+### 完善Sboxcpa攻击-student.py程序
+
+<h4 id="补充变量-1"><a href="#补充变量-1" class="headerlink" title="补充变量"></a>补充变量</h4><p>使用Sboxdpa仿真-student.py程序得到的结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plainlist = [<span class="number">41</span>, <span class="number">35</span>, <span class="number">62</span>, <span class="number">4</span>, <span class="number">33</span>, <span class="number">44</span>, <span class="number">22</span>, <span class="number">46</span>, <span class="number">18</span>]	<span class="comment">#第一组明文数组</span></span><br><span class="line"><span class="comment">#plainlist = [3, 10, 3, 1, 9, 48, 2, 59, 50, 32, 7, 27, 27, 54, 32, 52, 39, 2, 11, 41, 42, 9, 7, 62, 63, 62, 56, 40, 19, 55, 57, 40, 7, 7, 37, 34, 15, 26, 18, 58, 32, 9, 56, 1, 42, 35, 60, 7, 43, 56, 26, 28, 16, 25, 2, 57, 47, 44, 62, 27, 9, 31, 6, 5] #第二组明文数组</span></span><br><span class="line">power_std = [<span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>] <span class="comment">#第一组明文数组的汉明重量数组</span></span><br><span class="line"><span class="comment">#power_std = [2, 0, 2, 4, 2, 0, 3, 4, 4, 2, 3, 2, 2, 1, 2, 3, 2, 3, 2, 2, 2, 2, 3, 1, 1, 1, 3, 2, 1, 1, 1, 2, 3, 3, 2, 2, 0, 2, 2, 1, 2, 2, 3, 4, 2, 2, 3, 3, 2, 3, 2, 1, 4, 3, 3, 1, 3, 2, 1, 2, 2, 3, 3, 2] #第二组明文数组的汉明重量数组</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="完善Corrfun函数"><a href="#完善Corrfun函数" class="headerlink" title="完善Corrfun函数"></a>完善Corrfun函数</h4><p>完全根据公式：<br>$$<br>x corr&#x3D;\frac{\sum_n^{}{\left(x_i-\overline{x}  \right)}\cdot \left( y_i-\overline{y} \right)}{\sqrt{\sum_n^{}{\left( x_i-\overline{x} \right) ^2}}\cdot \sqrt{\sum_n^{}{\left( y_i-\overline{y} \right) ^2}}}<br>$$<br>推导出的代码。</p>
+<p>补充代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Corrfun</span>(<span class="params">n, pstd, ptest</span>):  <span class="comment"># 计算相关系数</span></span><br><span class="line">    <span class="comment"># 补充相关系数函数，返回两个向量的相关系数值</span></span><br><span class="line">    pstd_mean = mean(pstd)</span><br><span class="line">    ptest_mean = mean(ptest)</span><br><span class="line">    mole = <span class="number">0</span></span><br><span class="line">    denx = <span class="number">0</span></span><br><span class="line">    deny = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        mole += (ptest[i] - ptest_mean) * (pstd[i] - pstd_mean)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        denx += (ptest[i] - ptest_mean)**<span class="number">2</span></span><br><span class="line">        deny += (pstd[i] - pstd_mean)**<span class="number">2</span></span><br><span class="line">    den2 = math.sqrt(denx) * math.sqrt(deny)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">abs</span>(mole/den2)</span><br></pre></td></tr></table></figure>
+
+<h4 id="完善主函数-1"><a href="#完善主函数-1" class="headerlink" title="完善主函数"></a>完善主函数</h4><p>遍历0-63共64个密钥（密钥的所有可能性），遍历密钥得到的汉明重量数组和正确密钥得到的汉明重量数组共同带入Corrfun函数，计算相关系数，取所有相关系数中的最大值&#x3D;1对应的密钥，即为正确密钥。</p>
+<p>补充代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># 遍历所有可能密钥，计算每个猜测密钥对应的相关系数，求最大系数对应的猜测密钥</span></span><br><span class="line">    keyList = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>)]</span><br><span class="line">    n = <span class="built_in">len</span>(plainlist)</span><br><span class="line">    Corrlist = []</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>):</span><br><span class="line">        hw_std = []</span><br><span class="line">        HWout = sboxout(n, plainlist, k)</span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            hw_std.append(HWfun(HWout[m]))</span><br><span class="line">        Corrlist.append(Corrfun(n, power_std, hw_std))</span><br><span class="line">    final_dict = <span class="built_in">dict</span>(<span class="built_in">zip</span>(keyList, Corrlist))</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">max</span>(final_dict, key=final_dict.get))</span><br></pre></td></tr></table></figure>
+
+<h4 id="程序运行结果-1"><a href="#程序运行结果-1" class="headerlink" title="程序运行结果"></a>程序运行结果</h4><p>两个长度的数组运行结果都如下<br><img src="https://img-blog.csdnimg.cn/img_convert/3e5fb7bae94b76226c8a31b598b724d0.png#pic_center" alt="3-1.2"></p>
+<center>
+    <b>
+        <small> 
+            图6.3&nbsp&nbsp&nbsp&nbsp 长度为9&64的明文数组密钥猜测
+        </small>
+    </b>
+</center>
+
+<h2 id="思考问题"><a href="#思考问题" class="headerlink" title="思考问题"></a>思考问题</h2><h3 id="除了利用汉明重量模型，还可以用什么模型进行攻击？"><a href="#除了利用汉明重量模型，还可以用什么模型进行攻击？" class="headerlink" title="除了利用汉明重量模型，还可以用什么模型进行攻击？"></a>除了利用汉明重量模型，还可以用什么模型进行攻击？</h3><p>多元模型：汉明重量模型、汉明距离模型</p>
+<p>二元模型：比特模型、零值模型</p>
+<p>除了汉明重量模型，至少还有三种模型可以使用</p>
+<p>实际攻击时采用哪一种仿真模型，需要根据攻击对象（数据）的变化特点、密码芯片对密码算法的实现方式（软件实现、硬件实现）、攻击方法的使用等灵活选择。</p>
+<p>比较熟悉的是汉明距离模型，其通常用于比较两个相同长度的二进制字符串。它还可以用于字符串，通过计算不同字符的数量来比较它们之间的相似程度。在硬件上进行CPA攻击时一般采用汉明距离模型，原因之一就是在功耗曲线基数大时，汉明距离模型比汉明重量模型更有优势。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在实现CPA仿真实验过程中，我有去测试不同明文长度对密钥猜测结果的影响。如上文，我第一次测试长度为9的明文数组结果是正确的。不过不能确定正确率是100%，所以我循序渐进的进行进一步的测试：</p>
+<h3 id="阶段实验"><a href="#阶段实验" class="headerlink" title="阶段实验"></a>阶段实验</h3><p><strong>阶段一：</strong></p>
+<p>采用原明文数组<code>plainlist = [41, 35, 62, 4, 33, 44, 22, 46, 18]</code>，遍历64个密钥，查看结果。</p>
+<p>主函数代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    keyList = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>)]</span><br><span class="line">    n = <span class="built_in">len</span>(plainlist)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>):</span><br><span class="line">        power_std = []</span><br><span class="line">        HWout_true = sboxout(n, plainlist, i)  <span class="comment"># S盒输出</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            power_std.append(HWfun(HWout_true[j]))  <span class="comment"># 汉明重量</span></span><br><span class="line">        Corrlist = []</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>):</span><br><span class="line">            hw_std = []</span><br><span class="line">            HWout = sboxout(n, plainlist, k)</span><br><span class="line">            <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                hw_std.append(HWfun(HWout[m]))</span><br><span class="line">            Corrlist.append(Corrfun(n, power_std, hw_std))</span><br><span class="line">        final_dict = <span class="built_in">dict</span>(<span class="built_in">zip</span>(keyList, Corrlist))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;正确密钥:&quot;</span>,<span class="built_in">max</span>(final_dict, key=final_dict.get))</span><br></pre></td></tr></table></figure>
+
+<p>运行部分结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/3f5f1eada9f04fdfb69da8b3d717d88f.png#pic_center" alt="在这里插入图片描述"></p>
+<center>
+    <b>
+        <small> 
+            图8.1&nbsp&nbsp&nbsp&nbsp 阶段一程序部分输出
+        </small>
+    </b>
+</center>
+
+<p>其余结果相同，说明密钥的更改对正确率没影响。</p>
+<p><strong>阶段二：</strong></p>
+<p>采用长度相同（设长度为19）、明文内容不同的100个数组进行测试，正确密钥设为63。</p>
+<p>主函数代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">        plainlist = <span class="built_in">list</span>(np.random.randint(<span class="number">64</span>, size=<span class="number">19</span>))</span><br><span class="line">        keyList = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>)]</span><br><span class="line">        n = <span class="built_in">len</span>(plainlist)</span><br><span class="line">        power_std = []</span><br><span class="line">        HWout_true = sboxout(n, plainlist, <span class="number">63</span>)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            power_std.append(HWfun(HWout_true[j]))</span><br><span class="line">        Corrlist = []</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>):</span><br><span class="line">            hw_std = []</span><br><span class="line">            HWout = sboxout(n, plainlist, k)</span><br><span class="line">            <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                hw_std.append(HWfun(HWout[m]))</span><br><span class="line">            Corrlist.append(Corrfun(n, power_std, hw_std))</span><br><span class="line">        final_dict = <span class="built_in">dict</span>(<span class="built_in">zip</span>(keyList, Corrlist))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;正确密钥:&quot;</span>,<span class="built_in">max</span>(final_dict, key=final_dict.get))</span><br></pre></td></tr></table></figure>
+
+<p>运行部分结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/257c17aae79fae9465778e6bd0186bef.png#pic_center" alt="3-1.4"></p>
+<center>
+    <b>
+        <small> 
+            图8.2&nbsp&nbsp&nbsp&nbsp 阶段二程序部分输出
+        </small>
+    </b>
+</center>
+其余结果相同，说明明文内容的更改对正确率没影响。
+
+<p><strong>阶段三：</strong></p>
+<p>更改明文长度，从9—64，DES的明文分组上限就是64，至于为什么从9开始，是因为长度过小时可能会出现Corrfun函数内，被除数为0的情况。正确密钥设为45。</p>
+<p>主函数代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">9</span>,<span class="number">65</span>):</span><br><span class="line">        plainlist = <span class="built_in">list</span>(np.random.randint(<span class="number">64</span>, size = i))</span><br><span class="line">        keyList = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>)]</span><br><span class="line">        n = <span class="built_in">len</span>(plainlist)</span><br><span class="line">        power_std = []</span><br><span class="line">        HWout_true = sboxout(n, plainlist, <span class="number">45</span>)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            power_std.append(HWfun(HWout_true[j]))</span><br><span class="line">        Corrlist = []</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>):</span><br><span class="line">            hw_std = []</span><br><span class="line">            HWout = sboxout(n, plainlist, k)</span><br><span class="line">            <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                hw_std.append(HWfun(HWout[m]))</span><br><span class="line">            Corrlist.append(Corrfun(n, power_std, hw_std))</span><br><span class="line">        final_dict = <span class="built_in">dict</span>(<span class="built_in">zip</span>(keyList, Corrlist))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;正确密钥:&quot;</span>,<span class="built_in">max</span>(final_dict, key=final_dict.get))</span><br></pre></td></tr></table></figure>
+
+<p>运行部分结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e5b4924bd69342de77ba05c5e16eb6b1.png#pic_center" alt="3-1.5"></p>
+<center>
+    <b>
+        <small> 
+            图8.3&nbsp&nbsp&nbsp&nbsp 阶段三程序部分输出
+        </small>
+    </b>
+</center>
+其余结果相同，说明明文数组长度的更改对正确率没影响。
+
+<h3 id="综合分析"><a href="#综合分析" class="headerlink" title="综合分析"></a>综合分析</h3><p>阶段实验证明CPA仿真攻击的正确率不管在什么情况下都是100%，比DPA效果好多了。原因就在于CPA考虑了方差问题，使得其猜测精度有很明显的提高。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">MXBG</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/12/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%B8%89%20S%E7%9B%92CPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/">http://example.com/2021/12/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%B8%89%20S%E7%9B%92CPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">丹青</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/experiment/">experiment</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/12/19/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%BA%8C%20S%E7%9B%92DPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">S盒DPA侧信道攻击</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/26/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E5%AE%9E%E9%AA%8C%E5%9B%9B%20AES%20CPA%20%E6%94%BB%E5%87%BB/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">AES CPA攻击</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/10/24/DeceCMS%20v5.7%20SP2%E6%AD%A3%E5%BC%8F%E7%89%88%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" title="DeceCMS v5.7 SP2正式版前台任意修改用户密码修改漏洞复现"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-24</div><div class="title">DeceCMS v5.7 SP2正式版前台任意修改用户密码修改漏洞复现</div></div></a></div><div><a href="/2020/12/15/CTF%20Practice/" title="CTF Practice"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-15</div><div class="title">CTF Practice</div></div></a></div><div><a href="/2020/11/07/Network%20scanning%20&%20Network%20investigation/" title="Network scanning & Network investigation"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-07</div><div class="title">Network scanning & Network investigation</div></div></a></div><div><a href="/2020/11/10/Network%20sniffer%20&%20Identity%20authentication/" title="Network sniffing & identity authentication"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-10</div><div class="title">Network sniffing & identity authentication</div></div></a></div><div><a href="/2020/12/16/XSS%20&%20SQL%20injection/" title="XSS & SQL injection"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-16</div><div class="title">XSS & SQL injection</div></div></a></div><div><a href="/2021/12/26/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E5%AE%9E%E9%AA%8C%E5%9B%9B%20AES%20CPA%20%E6%94%BB%E5%87%BB/" title="AES CPA攻击"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-26</div><div class="title">AES CPA攻击</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avator.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MXBG</div><div class="author-info__description">Воспоминания</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/WM-MXBG/WM-MXBG.github.io"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WM-MXBG" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:danqinghupo@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">во славу республики</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-number">1.</span> <span class="toc-text">实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BA%BA%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">实验人数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text">系统环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E5%8E%9F%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">实验原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9"><span class="toc-number">5.</span> <span class="toc-text">实验内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4"><span class="toc-number">6.</span> <span class="toc-text">实验步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E5%96%84Sboxdpa%E4%BB%BF%E7%9C%9F-student-py%E7%A8%8B%E5%BA%8F"><span class="toc-number">6.1.</span> <span class="toc-text">完善Sboxdpa仿真-student.py程序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E5%8F%98%E9%87%8F"><span class="toc-number">6.1.1.</span> <span class="toc-text">补充变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E5%96%84HWfun%E5%87%BD%E6%95%B0"><span class="toc-number">6.1.2.</span> <span class="toc-text">完善HWfun函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E5%96%84%E4%B8%BB%E5%87%BD%E6%95%B0"><span class="toc-number">6.1.3.</span> <span class="toc-text">完善主函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="toc-number">6.1.4.</span> <span class="toc-text">程序运行结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E5%8F%98%E9%87%8F-1"><span class="toc-number">6.1.5.</span> <span class="toc-text">补充变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E5%96%84Corrfun%E5%87%BD%E6%95%B0"><span class="toc-number">6.1.6.</span> <span class="toc-text">完善Corrfun函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E5%96%84%E4%B8%BB%E5%87%BD%E6%95%B0-1"><span class="toc-number">6.1.7.</span> <span class="toc-text">完善主函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C-1"><span class="toc-number">6.1.8.</span> <span class="toc-text">程序运行结果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%80%83%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">思考问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%A4%E4%BA%86%E5%88%A9%E7%94%A8%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F%E6%A8%A1%E5%9E%8B%EF%BC%8C%E8%BF%98%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%BB%80%E4%B9%88%E6%A8%A1%E5%9E%8B%E8%BF%9B%E8%A1%8C%E6%94%BB%E5%87%BB%EF%BC%9F"><span class="toc-number">7.1.</span> <span class="toc-text">除了利用汉明重量模型，还可以用什么模型进行攻击？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E5%AE%9E%E9%AA%8C"><span class="toc-number">8.1.</span> <span class="toc-text">阶段实验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%BC%E5%90%88%E5%88%86%E6%9E%90"><span class="toc-number">8.2.</span> <span class="toc-text">综合分析</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/03/18/%E3%80%90VS%20Code%E3%80%91%E2%80%9CThe%20%E2%80%98clang-format%E2%80%98%20command%20is%20not%20available.%20Please%20check%20your%20clang-format.executable%E2%80%9C%E8%A7%A3%E5%86%B3/" title="【VS Code】“The ‘clang-format‘ command is not available. Please check your clang-format.executable“解决"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【VS Code】“The ‘clang-format‘ command is not available. Please check your clang-format.executable“解决"/></a><div class="content"><a class="title" href="/2022/03/18/%E3%80%90VS%20Code%E3%80%91%E2%80%9CThe%20%E2%80%98clang-format%E2%80%98%20command%20is%20not%20available.%20Please%20check%20your%20clang-format.executable%E2%80%9C%E8%A7%A3%E5%86%B3/" title="【VS Code】“The ‘clang-format‘ command is not available. Please check your clang-format.executable“解决">【VS Code】“The ‘clang-format‘ command is not available. Please check your clang-format.executable“解决</a><time datetime="2022-03-18T08:16:16.577Z" title="发表于 2022-03-18 16:16:16">2022-03-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/18/Node.js%E4%B8%AA%E4%BA%BA%E7%90%86%E8%A7%A3%E2%80%94%E2%80%94RESTful%20API/" title="RESTful API"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RESTful API"/></a><div class="content"><a class="title" href="/2022/03/18/Node.js%E4%B8%AA%E4%BA%BA%E7%90%86%E8%A7%A3%E2%80%94%E2%80%94RESTful%20API/" title="RESTful API">RESTful API</a><time datetime="2022-03-18T08:16:16.551Z" title="发表于 2022-03-18 16:16:16">2022-03-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/18/hello-world/" title="Hello World"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2022/03/18/hello-world/" title="Hello World">Hello World</a><time datetime="2022-03-18T07:00:21.920Z" title="发表于 2022-03-18 15:00:21">2022-03-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/26/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E5%AE%9E%E9%AA%8C%E5%9B%9B%20AES%20CPA%20%E6%94%BB%E5%87%BB/" title="AES CPA攻击"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AES CPA攻击"/></a><div class="content"><a class="title" href="/2021/12/26/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E5%AE%9E%E9%AA%8C%E5%9B%9B%20AES%20CPA%20%E6%94%BB%E5%87%BB/" title="AES CPA攻击">AES CPA攻击</a><time datetime="2021-12-26T14:03:09.000Z" title="发表于 2021-12-26 22:03:09">2021-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%B8%89%20S%E7%9B%92CPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/" title="S盒CPA侧信道攻击"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="S盒CPA侧信道攻击"/></a><div class="content"><a class="title" href="/2021/12/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%B8%89%20S%E7%9B%92CPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/" title="S盒CPA侧信道攻击">S盒CPA侧信道攻击</a><time datetime="2021-12-23T16:11:30.000Z" title="发表于 2021-12-24 00:11:30">2021-12-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By MXBG</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Record for self</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

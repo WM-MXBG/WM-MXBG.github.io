@@ -1,0 +1,1229 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>IP网络规划与路由设计 | 丹青</title><meta name="keywords" content="experiment,note"><meta name="author" content="MXBG"><meta name="copyright" content="MXBG"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="(这是头歌平台上的一个计网实验，我懒得删改内容了，直接把实验报告上传上来了。大家可以跳到文章内自己想看的位置去看） 实验目的 区别节点.网段、广播三种类型IP地址   掌握IP子网掩码的两种表示方法   明确IP网关含义   掌握IP子网划分、网络规划的基本方法  熟悉组网仿真工具GNS3使用方法   学会使用路由器的基本配置命令  深入理解路由表基本结构、路由过程  学会静态路由、默认路由配置基">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IP网络规划与路由设计">
+<meta property="og:url" content="http://example.com/2021/09/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%20IP%E7%BD%91%E7%BB%9C%E8%A7%84%E5%88%92%E4%B8%8E%E8%B7%AF%E7%94%B1%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="丹青">
+<meta property="og:description" content="(这是头歌平台上的一个计网实验，我懒得删改内容了，直接把实验报告上传上来了。大家可以跳到文章内自己想看的位置去看） 实验目的 区别节点.网段、广播三种类型IP地址   掌握IP子网掩码的两种表示方法   明确IP网关含义   掌握IP子网划分、网络规划的基本方法  熟悉组网仿真工具GNS3使用方法   学会使用路由器的基本配置命令  深入理解路由表基本结构、路由过程  学会静态路由、默认路由配置基">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2021-09-28T14:30:18.000Z">
+<meta property="article:modified_time" content="2022-03-18T06:03:46.024Z">
+<meta property="article:author" content="MXBG">
+<meta property="article:tag" content="experiment">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/09/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%20IP%E7%BD%91%E7%BB%9C%E8%A7%84%E5%88%92%E4%B8%8E%E8%B7%AF%E7%94%B1%E8%AE%BE%E8%AE%A1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'IP网络规划与路由设计',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-18 14:03:46'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="//at.alicdn.com/t/font_3252018_omzfakobxkq.css"><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="丹青" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avator.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> Book</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw iconfont icon-bussiness-man"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">丹青</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> Book</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw iconfont icon-bussiness-man"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">IP网络规划与路由设计</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-28T14:30:18.000Z" title="发表于 2021-09-28 22:30:18">2021-09-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-18T06:03:46.024Z" title="更新于 2022-03-18 14:03:46">2022-03-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Computer-Network/">Computer Network</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="IP网络规划与路由设计"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>(这是头歌平台上的一个计网实验，我懒得删改内容了，直接把实验报告上传上来了。大家可以跳到文章内自己想看的位置去看）</p>
+<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><ol>
+<li><p>区别节点.网段、广播三种类型IP地址 </p>
+</li>
+<li><p>掌握IP子网掩码的两种表示方法 </p>
+</li>
+<li><p>明确IP网关含义 </p>
+</li>
+<li><p>掌握IP子网划分、网络规划的基本方法</p>
+</li>
+<li><p>熟悉组网仿真工具GNS3使用方法 </p>
+</li>
+<li><p>学会使用路由器的基本配置命令</p>
+</li>
+<li><p>深入理解路由表基本结构、路由过程</p>
+</li>
+<li><p>学会静态路由、默认路由配置基本操作</p>
+</li>
+<li><p>掌握路由分析、网络连通故障定位的方法</p>
+</li>
+</ol>
+<h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><ol>
+<li>头歌基于Linux的虚拟机桌面系统</li>
+<li>组网仿真工具GNS3 </li>
+<li>浏览器firefox</li>
+<li>路由跟踪命令traceroute(在Windows平台是tracert)</li>
+</ol>
+<h2 id="相关原理或知识点"><a href="#相关原理或知识点" class="headerlink" title="相关原理或知识点"></a>相关原理或知识点</h2><ol>
+<li><p>IP子网掩码的两种表示方法</p>
+<p>32位IP子网掩码，特点是从高位开始连续都是1，后面是连续的0，它有以下两种表示方法： </p>
+<p>（1）传统表示法，如：255.255.255.0 </p>
+<p>（2）IP前缀（长度），如：24，表示IP地址的前24位是网络位。</p>
+</li>
+<li><p>节点、网段、广播三种类型IP地址</p>
+<p>在IP网络中，每个通信节点、IP网段、广播地址都需要用“IP&#x2F;子网掩码”来表示，并且它们的特征是截然不同的，千万不要弄错。</p>
+</li>
+<li><p>IP子网</p>
+<p>每个IP子网（网段），都对应一个连续的IP地址块（空间），并且这个地址块的起始地址和长度一定是2的幂数。 例如：子网172.16.0.0&#x2F;24，对应的地址块的起始地址（最小）是该子网的网络地址； 对应的地址块的结束地址（最大）是该子网的广播地址；其余的IP地址属于节点地址，一共有2的8次幂-2&#x3D;256-2&#x3D;254个。 </p>
+</li>
+<li><p>路由表的基本结构</p>
+<p>构成路由表的表项称之为路由项。典型的路由表实例如下：</p>
+<center><b><small> 表3.1&nbsp&nbsp&nbsp&nbsp典型路由表</small></b></center></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">目标IP&#x2F;目标掩码</th>
+<th align="center">协议</th>
+<th align="center">优先级</th>
+<th align="center">开销</th>
+<th align="center">下一跳</th>
+<th align="center">本地出口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">8.0.0.0&#x2F;8</td>
+<td align="center">RIP</td>
+<td align="center">100</td>
+<td align="center">3</td>
+<td align="center">130.0.0.2</td>
+<td align="center">Serial1&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">9.0.0.0&#x2F;8</td>
+<td align="center">OSPF</td>
+<td align="center">10</td>
+<td align="center">50</td>
+<td align="center">123.0.3.21</td>
+<td align="center">Serial1&#x2F;1</td>
+</tr>
+<tr>
+<td align="center">9.1.0.0&#x2F;16</td>
+<td align="center">RIP</td>
+<td align="center">100</td>
+<td align="center">4</td>
+<td align="center">203.9.0.2</td>
+<td align="center">Ethernet0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">9.1.15.0&#x2F;24</td>
+<td align="center">Static</td>
+<td align="center">60</td>
+<td align="center">0</td>
+<td align="center">172.0.31.2</td>
+<td align="center">Ethernet0&#x2F;1</td>
+</tr>
+<tr>
+<td align="center">20.0.0.0&#x2F;24</td>
+<td align="center">Direct</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center"></td>
+<td align="center">FastEthernet0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">3.3.3.2&#x2F;32</td>
+<td align="center">Static</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">192.1.1.2</td>
+<td align="center">LoopBack0</td>
+</tr>
+<tr>
+<td align="center">0.0.0.0&#x2F;0</td>
+<td align="center">Static</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">10.0.1.2</td>
+<td align="center">GigabitEthernet0</td>
+</tr>
+</tbody></table>
+<p>5、路由表的作用</p>
+<p>网络中每台路由器都用到了2个或2个以上的网络接口进行网络互连，这里每个接口称之为路由接口。每个路由接口必须设有一个IP地址，如果该接口所在IP网段还有其它用户主机或服务器，该接口就是它们的IP网关。 路由表的主要作用是用于路由，路由是路由器若干功能中一个最基本的功能。当有一个报文从外部进入路由器后，路由器先判别它是过路报文，还是专门发给自己的报文，如果是过路报文，就要进行路由处理。</p>
+<p>6、路由表的静态配置</p>
+<p>添加一条静态路由操作命令：<code>ip route 目标IP 目标掩码 下一跳IP</code></p>
+<p>删除一条静态路由操作命令：<code>no ip route 目标IP 目标掩码 下一跳IP</code></p>
+<p>7、默认路由及其配置</p>
+<p>路由表中，目标IP&#x2F;目标掩码是0&#x2F;0的路由项。称之为默认路由项。</p>
+<p>如果路由表中含有一个默认路由项，理论上任何IP地址跟它都是匹配的。</p>
+<p>目标0&#x2F;0含义：当前路由器中登记的所有的非0&#x2F;0目标都是已知的，相对于整个网络，其它未登记的都是未知目标，它们可以统一用0&#x2F;0表示。</p>
+<p>默认路由项最大优势：可以表达批量目标，提高了配置工作的效率，但是必须要确保它们有共同的下一跳，否则网络永远无法实现完全互通。</p>
+<p>默认路由配置举例：<code>ip route 0.0.0.0 0.0.0.0 10.10.10.10</code></p>
+<h2 id="实验任务"><a href="#实验任务" class="headerlink" title="实验任务"></a>实验任务</h2><ol>
+<li>IP地址子网规划并分配好IP地址后填写对应表格</li>
+<li>根据IP地址分配表配置PC端和路由各接口的IP地址</li>
+<li>配置PC端和路由端之间、路由端和路由端之间的静态路由，查看配置文件并分析</li>
+<li>为末梢路由器配置默认路由，进行网络连通测试和路由跟踪测试</li>
+</ol>
+<h2 id="IP网络规划"><a href="#IP网络规划" class="headerlink" title="IP网络规划"></a>IP网络规划</h2><p>IP子网地址规划采用的子网划分的方式。</p>
+<center>
+    <b>
+        <small> 
+            表5.1&nbsp&nbsp&nbsp&nbsp IP子网地址规划
+        </small>
+    </b>
+</center>
+
+
+<table>
+<thead>
+<tr>
+<th align="center">网段序号</th>
+<th align="center">IP地址</th>
+<th align="center">子网掩码</th>
+<th align="center">所需IP数</th>
+<th align="center">网段类型</th>
+<th align="center">网关IP</th>
+<th>图中成员节点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">192.168.1.0</td>
+<td align="center">24</td>
+<td align="center">230</td>
+<td align="center">用户</td>
+<td align="center">192.168.1.254</td>
+<td>PC1、R1接口F0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">192.168.2.252</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">互连</td>
+<td align="center">无</td>
+<td>R1接口F0&#x2F;1、R2接口F0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">192.168.3.252</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">互连</td>
+<td align="center">无</td>
+<td>R2接口F0&#x2F;1、R3接口F0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">192.168.4.128</td>
+<td align="center">25</td>
+<td align="center">100</td>
+<td align="center">用户</td>
+<td align="center">192.168.4.129</td>
+<td>R3接口F0&#x2F;1、PC2</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">192.168.5.252</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">互连</td>
+<td align="center">无</td>
+<td>R2接口F1&#x2F;0、R4接口F0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">192.168.6.192</td>
+<td align="center">26</td>
+<td align="center">60</td>
+<td align="center">用户</td>
+<td align="center">192.168.6.193</td>
+<td>R4接口F0&#x2F;1、PC3</td>
+</tr>
+</tbody></table>
+<p>首先要划分不同的网段，第一步就是要设置不同的网络标识。既然要设置不同的网络标识，首先就要了解网络标识怎么计算和判定。</p>
+<p>网络标识作为网段的划分依据，不同网段的网络标识一定是不一样的，而网络标识是通过IP和子网掩码皆化为二进制后，每一位进行与运算，得到的结果就是网络标识。</p>
+<p>拿192.168.1.20&#x2F;24举例：</p>
+<p>IP：11000000.10101000.00000001.00010100</p>
+<p>子网掩码：11111111.11111111.11111111.00000000</p>
+<p>得出AND结果：11000000.10101000.00000001.00000000 &#x3D;&#x3D; 192.168.1.0</p>
+<p>而A、B、C三类IP的网络标识算法是有差异的，如下所述</p>
+<blockquote>
+<p>A类：只算第一段</p>
+<p>B类：只算第一、二段</p>
+<p>C类：算第一、二、三段</p>
+</blockquote>
+<p>因为此次实验采用的是C类IP，所以192.168.1.0是192.168.1.20&#x2F;24的网络标识，也表明IP-192.168.1.20在192.168.1.0网段内。</p>
+<p><strong><font color='red'>但是！上面的的网段判定方法只适用于未进行子网划分的情况，进行子网划分后的网络标识计算结果和网段判定就不一样了！</font></strong></p>
+<p><strong>子网划分</strong></p>
+<p>谈到了子网划分就先说子网划分，怎么不一样会在子网划分的分析中解答。</p>
+<p>子网划分是为了划分不同的网段，而不同的网段意味着不同的网络标识，前面举的例子表达的很清楚了，网络标识是通过IP和子网掩码的与运算所得的。而<code>与1进行与运算得到的永远是本身，与0进行与运算得到的不一定是本身</code>，这就表明子网掩码有着决定网络标识结果的能力。</p>
+<p>为什么这么说呢，大家注意，IP是由网络地址和主机地址组成的。网段划分划分的是IP的网络地址，网络地址的不同表达出不同的网段，后面的剩余位表达的就是主机地址。所以网段和主机地址是1对N的关系。</p>
+<p>比如192.168.1.0网段，前三段是网络地址，后一段是主机地址。在192.168.1.0这个网段内能表达的主机IP范围就是192.168.1.1~192.168.1.254(主机位全0和全1扣除)，这就是1对N。</p>
+<blockquote>
+<p>主机位全0表示本网络，全1留作广播地址，所以在保留两位主机位的条件下，排除全0和全1。</p>
+</blockquote>
+<p>在一个网段内网段是不变的，变的只是主机位，这和“<code>与1进行与运算得到的永远是本身，与0进行与运算得到的不一定是本身</code>”这句话是不是很契合？子网掩码是1的部分和IP进行与运算得到的结果是不变的，所以可以通过子网掩码1的位数来决定网络地址的位数，进而决定了网段。</p>
+<p>现在知道了<code>子网掩码有着决定网段的能力</code>。那么上文红字部分所提到的“<font color='red'>进行子网划分后的网络标识计算结果和网段判定就不一样了</font>”的问题就有答案了——子网掩码的1的位数能决定与运算得到的网络标识结果有多少位是不变的，即决定网络地址位数，即决定网段。</p>
+<p>那么根据子网数目的需求或者是主机数的需求而进行子网划分后，就不能只是单纯的用与运算结果的前几段进行网段的判定，而是根据子网掩码为1的位数来决定与运算结果的前多少位是用来判定网段。</p>
+<blockquote>
+<p>其实一直都是根据子网掩码1的位数，根据前几段判断只是不同类型IP的默认值。</p>
+</blockquote>
+<p>那就那么接下来继续分析子网划分。</p>
+<p>子网划分可以根据子网数划分和主机数划分。本实验中题目只要求了所需IP数，即通过主机数划分。</p>
+<p>拿第四个网段举进行实例分析，第四个网段所需IP数是100，因为 2^6 &lt; 100 &lt;2^7 ，所以需要主机位数为7，因为主机位数7能表达2^7-2个IP(主机位全0和全1扣除)。</p>
+<p>主机数需要7位可以得知IP的网络位是32-7&#x3D;25位，则子网掩码的前25个位数为1，即子网掩码为255.255.255.128，表格内的子网掩码就填写25，</p>
+<p>网段IP可以填192.168.4.0或者192.168.4.128。两者表达的范围分别是192.168.4.1<del>192.168.4.127和192.168.4.128</del>192.168.4.254。范围都满足分配100个IP。当IP第四段的第一位为1时，IP和子网掩码与运算的结果为192.168.4.128，即进入了192.168.4.128这个网段，所以192.168.4.0的网段最多就能表示128个IP。</p>
+<p>至于为什么第三段是4，只是因为从1递加到4而已。</p>
+<center>
+    <b>
+        <small> 
+            表5.2&nbsp&nbsp&nbsp&nbsp IP地址分配表
+        </small>
+    </b>
+</center>
+
+
+<table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">节点名称</th>
+<th align="center">IP地址&#x2F;子网掩码</th>
+<th align="center">网关IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">PC1</td>
+<td align="center">192.168.1.1&#x2F;24</td>
+<td align="center">192.168.1.254</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">R1接口F0&#x2F;0</td>
+<td align="center">192.168.1.254&#x2F;24</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">R1接口F0&#x2F;1</td>
+<td align="center">192.168.2.253&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">R2接口F0&#x2F;0</td>
+<td align="center">192.168.2.254&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">R2接口F0&#x2F;1</td>
+<td align="center">192.168.3.253&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">R3接口F0&#x2F;0</td>
+<td align="center">192.168.3.254&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">R3接口F0&#x2F;1</td>
+<td align="center">192.168.4.129&#x2F;25</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">PC2</td>
+<td align="center">192.168.4.254&#x2F;25</td>
+<td align="center">192.168.4.129</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">R2接口F1&#x2F;0</td>
+<td align="center">192.168.5.253&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">R4接口F0&#x2F;0</td>
+<td align="center">192.168.5.254&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">R4接口F0&#x2F;1</td>
+<td align="center">192.168.6.193&#x2F;26</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">PC3</td>
+<td align="center">192.168.6.254&#x2F;26</td>
+<td align="center">192.168.6.193</td>
+</tr>
+</tbody></table>
+<p>分配结点的IP和子网掩码时，同一网段内的两结点所分配的IP在网段内即可，不分大小先后，别相等就行。</p>
+<p><strong>网关IP选择</strong></p>
+<p>网关IP的填写前首先要明确网关位置处于哪个网段，在下图中可以看到三台PC机的节点（e0）分别和R1接口F0&#x2F;0，R3接口F0&#x2F;1、R4接口F0&#x2F;1处于同一网段，网关IP的选择一定是在同一网段上选择的，所以PC2和PC3的网关IP选择分别是192.168.4.x和192.168.6.x，最后一段数字的选择只要在网段范围内就可以，比如PC2的选择范围就是192.168.4.<code>129</code><del>192.168.4.<code>254</code>，PC3的范围就是192.168.6.<code>193</code></del>192.168.4.<code>254</code>。</p>
+<p>默认网关地址是主机位除最后一位全置1后得到的，根据网络前缀24可知前24位为网络位，后8位为主机位。比如IP地址&#x2F;子网掩码为192.168.4.129&#x2F;25的节点的默认网关就是IP地址192.168.4.1<strong>1111110</strong>（加粗的数字部分为主机位），换算成十进制数即192.168.4.254&#x2F;25</p>
+<blockquote>
+<p>但凡是跟IP地址格式一样的都要加网络前缀，跟子网掩码格式一样的就不用加，假如192.168.4.129&#x2F;25的网络前缀为27，那么主机位就变成32-27&#x3D;5位了，即默认网关地址为192.168.4.100<strong>11110</strong> —&gt;193.6.7.158&#x2F;27 。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/eec80f8496e78767205b63633a4805ef.png#pic_center" alt="例"></p>
+<center>
+    <b>
+        <small> 
+            图5.1&nbsp&nbsp&nbsp&nbsp 实验例图
+        </small>
+    </b>
+</center>
+
+<h2 id="网络基本配置"><a href="#网络基本配置" class="headerlink" title="网络基本配置"></a>网络基本配置</h2><ol>
+<li><p>在开始配置节点之前我们可以做一些基础准备，比如路由器的命名。因为此次实验初始化后所有路由器名称都默认为<code>Router</code>，所以为了观察和记录方便我们可以将四个路由器名称设为R1~R4，流程如下：</p>
+<p>① 进入特权模式：<code>enable</code></p>
+<p>② 进入终端配置模式：<code>conf t</code></p>
+<p>③ 更改路由器名称：<code>host R1/R2/R3/R4</code></p>
+</li>
+<li><p>配置节点IP</p>
+<p>先配置三台PC机的IP，命令格式为<code>ip IP地址/子网掩码 网关IP</code></p>
+<p>PC1</p>
+<p><img src="https://gitee.com/wm-mxbg/my-image-hosting-service/raw/master/3-1-1.jpg"></p>
+<center>
+    <b>
+        <small> 
+            图6.1&nbsp&nbsp&nbsp&nbsp PC1的IP配置
+        </small>
+    </b>
+</center>
+
+<p>PC2</p>
+<p><img src="https://gitee.com/wm-mxbg/my-image-hosting-service/raw/master/3-1-2.jpg"></p>
+   <center>
+       <b>
+           <small> 
+               图6.2&nbsp&nbsp&nbsp&nbsp PC2的IP配置
+           </small>
+       </b>
+   </center>
+
+<p>PC3</p>
+<p><img src="https://gitee.com/wm-mxbg/my-image-hosting-service/raw/master/3-1-3.jpg"></p>
+   <center>
+       <b>
+           <small> 
+               图6.3&nbsp&nbsp&nbsp&nbsp PC3的IP配置
+           </small>
+       </b>
+   </center>
+
+<p>再配置R1~R4路由器节点的IP，命令格式为<code>IP 接口IP地址 接口IP的子网掩码</code>；同时查看接口IP配置是否正确，命令格式为<code>do show ip int b</code></p>
+<p>因为初次配置后忘记截图，被初始化后失去了截图的机会，故图片仅展示接口配置，具体的配置接口的命令行用代码展示</p>
+<p>首先进入终端配置模式：<code>conf t</code></p>
+<p><strong>R1</strong></p>
+   <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> f0/<span class="number">0</span>								<span class="comment">//进入f0/0接口模式</span></span><br><span class="line">ip add <span class="number">192.168</span><span class="number">.1</span><span class="number">.254</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>		<span class="comment">//设置IP地址和子网掩码</span></span><br><span class="line">no sh									<span class="comment">//激活f0/0接口</span></span><br><span class="line"><span class="type">int</span> f0/<span class="number">1</span>								<span class="comment">//进入f0/1接口模式</span></span><br><span class="line">ip add <span class="number">192.168</span><span class="number">.2</span><span class="number">.253</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.252</span>	<span class="comment">//设置IP地址和子网掩码</span></span><br><span class="line">no sh									<span class="comment">//激活f0/1接口  </span></span><br></pre></td></tr></table></figure>
+<p>R2~R4的代码展示将只展示 ip add 的命令</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cdc8ac1e681b42b1a3bee192fc398fe0.png#pic_center" alt="3-1-27"></p>
+<center>
+    <b>
+        <small> 
+            图6.4&nbsp&nbsp&nbsp&nbsp R1的IP配置
+        </small>
+    </b>
+</center>
+
+<p><strong>R2</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip add <span class="number">192.168</span><span class="number">.2</span><span class="number">.254</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.252</span>		</span><br><span class="line">ip add <span class="number">192.168</span><span class="number">.3</span><span class="number">.253</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.252</span>	</span><br><span class="line">ip add <span class="number">192.168</span><span class="number">.5</span><span class="number">.253</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.252</span>	</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3abf65509469a186d96354bebe800010.png#pic_center" alt="3-1-28"></p>
+<center>
+    <b>
+        <small> 
+            图6.5&nbsp&nbsp&nbsp&nbsp R2的IP配置
+        </small>
+    </b>
+</center>
+
+<p><strong>R3</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip add <span class="number">192.168</span><span class="number">.3</span><span class="number">.254</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.252</span>		</span><br><span class="line">ip add <span class="number">192.168</span><span class="number">.4</span><span class="number">.129</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.128</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0653e9b73aa78bfe3d82de28c07d7737.png#pic_center" alt="3-1-29"></p>
+<center>
+    <b>
+        <small> 
+            图6.6&nbsp&nbsp&nbsp&nbsp R3的IP配置
+        </small>
+    </b>
+</center>
+**R4**
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip add <span class="number">192.168</span><span class="number">.5</span><span class="number">.254</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.252</span>		</span><br><span class="line">ip add <span class="number">192.168</span><span class="number">.6</span><span class="number">.193</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.192</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6f17ed3ec55531701146e9401637f33b.png#pic_center" alt="3-1-30"></p>
+<center>
+    <b>
+        <small> 
+            图6.7&nbsp&nbsp&nbsp&nbsp R4的IP配置
+        </small>
+    </b>
+</center>
+</li>
+<li><p>配置分析<br>运行命令：<code>show run</code>查看配置信息。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a36861b46e80c8d6ac959aa1d2dadcbf.png#pic_center" alt="3-1-24"></p>
+<center>
+ <b>
+     <small> 
+         图6.8&nbsp&nbsp&nbsp&nbsp R3的配置信息_1
+     </small>
+ </b>
+</center>
+
+<p>上图的配置信息中并没有太多的有价值信息，如</p>
+<p>当前配置大小：<code>807Bytes</code></p>
+<p>版本：<code>12.4</code></p>
+<p>路由器名称：<code>R3</code></p>
+<p>等</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5f8471eed2d357120aaab5e09c0973c2.png#pic_center" alt="3-1-25"></p>
+<center>
+    <b>
+        <small> 
+            图6.9&nbsp&nbsp&nbsp&nbsp R3的配置信息_2
+        </small>
+    </b>
+</center>
+
+<p>这图的信息比较多：但是类型单一，主要描述的是R3各接口的IP配置信息</p>
+<p>R3的f0&#x2F;0接口：<code>IP地址/子网掩码为：192.168.3.254/30</code></p>
+<p>R3的f0&#x2F;1接口：<code>IP地址/子网掩码为：192.168.4.129/25</code></p>
+<p>R3的f1&#x2F;0接口：<code>IP地址未分配</code></p>
+<p>R3的f2&#x2F;0接口：<code>IP地址未分配</code></p>
+<p>因为这个配置是我配完默认路由之后的配置，所以在途中还有R3所配置的路由：</p>
+<center>
+    <b>
+        <small> 
+            表7.1&nbsp&nbsp&nbsp&nbsp R3路由配置
+        </small>
+    </b>
+</center>
+
+<table>
+<thead>
+<tr>
+<th align="center">目标网络号</th>
+<th align="center">目标掩码</th>
+<th align="center">下一跳IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>0.0.0.0</code></td>
+<td align="center"><code>0.0.0.0</code></td>
+<td align="center"><code>192.168.3.253</code></td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h2 id="静态路由、默认路由配置"><a href="#静态路由、默认路由配置" class="headerlink" title="静态路由、默认路由配置"></a>静态路由、默认路由配置</h2><ol>
+<li><p><strong>都配置静态路由</strong></p>
+<p>在配置静态路由的时候一开始我是把所有的路由器都配好了静态路由，而不是只给R2配静态路由，R1、R3、R4配默认路由</p>
+<p>配置静态路由的格式为<code>ip route 目标网络号 目标掩码 下一跳IP</code>，同时查看路由配置是否正确，命令格式为：<code>do show ip route</code></p>
+<p><strong>R1</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/80f98b41b7211810cc858561049a5184.png#pic_center" alt="3-1-4"></p>
+<center>
+    <b>
+        <small> 
+            图7.1&nbsp&nbsp&nbsp&nbsp R1的静态路由配置
+        </small>
+    </b>
+</center>
+**R2**
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/dc65fe8d8a4bddacc0c2cadde2e36943.png#pic_center" alt="3-1-5"></p>
+<center>
+    <b>
+        <small> 
+            图7.2&nbsp&nbsp&nbsp&nbsp R2的静态路由配置
+        </small>
+    </b>
+</center>
+
+<p><strong>R3</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/319e92ef9042a614dbea167957335d87.png#pic_center" alt="3-1-7"></p>
+   <center>
+       <b>
+           <small> 
+               图7.3&nbsp&nbsp&nbsp&nbsp R3的静态路由配置
+           </small>
+       </b>
+   </center>
+
+<p><strong>R4</strong></p>
+<p><img src="https://gitee.com/wm-mxbg/my-image-hosting-service/raw/master/StaticBlog/1744077eb187c0be2dca91942c99083a.png" alt="3-1-8"></p>
+   <center>
+       <b>
+           <small> 
+               图7.4&nbsp&nbsp&nbsp&nbsp R4的静态路由配置
+           </small>
+       </b>
+   </center>
+
+</li>
+<li><p><strong>配置静态路由和默认路由</strong></p>
+<p>在经历过全配置静态路由后，按照edu上的要求，为R1、R3、R4三位末梢路由配置默认路由,R2依旧配置静态路由。</p>
+<p>此次试验我配置的默认路由的目标IP和子网掩码都是0：<code>ip route 0.0.0.0 0.0.0.0 下一跳IP</code></p>
+<p><strong>R1</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/53d17371bce230db442bb958f6090ea4.png#pic_center" alt="3-1-12"></p>
+<center>
+    <b>
+        <small> 
+            图7.5&nbsp&nbsp&nbsp&nbsp R1的默认路由配置
+        </small>
+    </b>
+</center>
+
+<p><strong>R2</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b12818507d55868bd29642b1c23357b3.png#pic_center" alt="3-1-13"></p>
+<center>
+  <b>
+    <small> 
+      图7.6&nbsp&nbsp&nbsp&nbsp R2的静态路由配置
+    </small>
+  </b>
+</center>
+
+<p><strong>R3</strong><img src="https://img-blog.csdnimg.cn/img_convert/c7955ab5bbb58b99d8a520e2f7467815.png#pic_center" alt="3-1-14"></p>
+<center>
+  <b>
+    <small> 
+      图7.7&nbsp&nbsp&nbsp&nbsp R3的默认路由配置
+    </small>
+  </b>
+</center>
+
+<p><strong>R4</strong><img src="https://img-blog.csdnimg.cn/img_convert/0a6fade2d87ef47911f91c27f189ce37.png#pic_center" alt="3-1-15"></p>
+<center>
+  <b>
+    <small> 
+      图7.8&nbsp&nbsp&nbsp&nbsp R3的默认路由配置
+    </small>
+  </b>
+</center>
+
+<p>仔细观察会发现除了R2，其余路由器的路由配置里都多了很多行非默认路由的配置，这是因为我在一开始全部路由器配置静态路由后接着就配置了默认路由，导致R1、R2、R3三个末梢路由器的路由配置上有了赘余。所以采用 <code>no ip route 目标网络号 目标掩码 下一跳IP </code>的命令格式去除R1、R2、R3路由器之前配置的静态路由。</p>
+<p><strong>R1</strong><img src="https://img-blog.csdnimg.cn/img_convert/388e7cbb318ce1c0845f9b0b014a9c22.png#pic_center" alt="3-1-16"></p>
+<center>
+  <b>
+    <small> 
+      图7.9&nbsp&nbsp&nbsp&nbsp R1正确默认路由配置
+    </small>
+  </b>
+</center>
+
+<p><strong>R3</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5f75d0d814d06962989135d087ad36bd.png#pic_center" alt="3-1-18"></p>
+<center>
+  <b>
+    <small> 
+      图7.10&nbsp&nbsp&nbsp&nbsp R3正确默认路由配置
+    </small>
+  </b>
+</center>
+
+<p><strong>R4</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9de1c1abd60edd379bf3b99216803d46.png#pic_center" alt="3-1-19"></p>
+<center>
+  <b>
+    <small> 
+      图7.11&nbsp&nbsp&nbsp&nbsp R4正确默认路由配置
+    </small>
+  </b>
+</center>
+
+<p>在这里我发现no ip add后查看的路由参数所显示的子网掩码都是24，这和我当初所设的子网掩码是不一致的。而在我被初始化后的二次配置后，我再进行路由查询，所得的路由参数所显示的子网掩码回归正常，是我当初设的子网掩码。</p>
+<p>我怀疑是no ip add命令导致的处初始化问题。（可能）</p>
+</li>
+<li><p><strong>R3路由表及其分析</strong></p>
+<p>查看R3的路由得</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cb0fd8eb9956a97552e2d3d72638a9f4.png#pic_center" alt="3-1-31"></p>
+<center>
+    <b>
+        <small> 
+            图7.12&nbsp&nbsp&nbsp&nbsp R3路由
+        </small>
+    </b>
+</center>
+
+<p>编辑成表如下</p>
+   <center>
+       <b>
+           <small> 
+               表7.1&nbsp&nbsp&nbsp&nbsp R3路由表
+           </small>
+       </b>
+   </center>
+
+<table>
+<thead>
+<tr>
+<th>目标IP&#x2F;目标掩码</th>
+<th>协议</th>
+<th>优先级</th>
+<th>开销</th>
+<th>下一跳</th>
+<th>本地出口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>192.168.4.0&#x2F;25</td>
+<td>Direct</td>
+<td>0</td>
+<td>0</td>
+<td>&#x2F;</td>
+<td>FastEthernet0&#x2F;0</td>
+</tr>
+<tr>
+<td>192.168.3.0&#x2F;30</td>
+<td>Direct</td>
+<td>0</td>
+<td>0</td>
+<td>&#x2F;</td>
+<td>FastEthernet0&#x2F;1</td>
+</tr>
+<tr>
+<td>0.0.0.0&#x2F;0</td>
+<td>Static</td>
+<td>1</td>
+<td>0</td>
+<td>192.168.3.253</td>
+<td>GigabitEthernet0</td>
+</tr>
+</tbody></table>
+<p>首先看<code>协议</code>：</p>
+<p>前两行的协议是Direct，表示当前网段直接连接在本地接口上，当为该接口设置好IP地址后，自动会产生该路由项，当为该接口去掉IP地址后，对应的路由项自动会消失。</p>
+<p>第三行的协议是Static，表示当前路由项是通过命令添加的，可以通过命令删除。</p>
+<p>再看<code>目标IP/目标掩码</code>和<code>本地出口</code>：</p>
+<p>R3路由的f0&#x2F;0接口的目标IP&#x2F;掩码为：192.168.4.0&#x2F;25</p>
+<p>R3路由的f0&#x2F;1接口的目标IP&#x2F;掩码为：192.168.3.0&#x2F;30</p>
+<p>R3路由的静态目标IP&#x2F;掩码为：0.0.0.0&#x2F;0；下一跳的静态IP为192.168.3.253</p>
+<p>再看<code>优先级</code>和<code>开销</code>：</p>
+<p>R3路由的f0&#x2F;0接口和f0&#x2F;1接口的优先级和开销都为0，匹配选择度高。</p>
+<p>R3的被设路由项额的优先级为1，,开销为0，在优先级上匹配选择度低于R3路由本身接口。</p>
+</li>
+<li><p><strong>R4路由表及其分析</strong></p>
+<p>查看R3的路由得</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a1143479bb130a21e2b95ce6d3037b39.png#pic_center" alt="3-1-32"></p>
+<center>
+    <b>
+        <small> 
+            图7.13&nbsp&nbsp&nbsp&nbsp R4路由
+        </small>
+    </b>
+</center>
+
+<p>编辑成表如下</p>
+   <center>
+       <b>
+           <small> 
+               表7.2&nbsp&nbsp&nbsp&nbsp R4路由表
+           </small>
+       </b>
+   </center>
+
+<table>
+<thead>
+<tr>
+<th align="center">目标IP&#x2F;目标掩码</th>
+<th align="center">协议</th>
+<th align="center">优先级</th>
+<th align="center">开销</th>
+<th align="center">下一跳</th>
+<th align="center">本地出口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">192.168.5.0&#x2F;30</td>
+<td align="center">Direct</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">&#x2F;</td>
+<td align="center">FastEthernet0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">192.168.6.0&#x2F;26</td>
+<td align="center">Direct</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">&#x2F;</td>
+<td align="center">FastEthernet0&#x2F;1</td>
+</tr>
+<tr>
+<td align="center">0.0.0.0&#x2F;0</td>
+<td align="center">Static</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">192.168.5.253</td>
+<td align="center">GigabitEthernet0</td>
+</tr>
+</tbody></table>
+<p>首先看<code>协议</code>：</p>
+<p>前两行的协议是Direct，表示当前网段直接连接在本地接口上，当为该接口设置好IP地址后，自动会产生该路由项，当为该接口去掉IP地址后，对应的路由项自动会消失。</p>
+<p>第三行的协议是Static，表示当前路由项是通过命令添加的，可以通过命令删除。</p>
+<p>再看<code>目标IP/目标掩码</code>和<code>本地出口</code>：</p>
+<p>R4路由的f0&#x2F;0接口的目标IP&#x2F;掩码为：192.168.5.0&#x2F;30</p>
+<p>R4路由的f0&#x2F;1接口的目标IP&#x2F;掩码为：192.168.6.0&#x2F;26</p>
+<p>R4路由的静态目标IP&#x2F;掩码为：0.0.0.0&#x2F;0；下一跳的静态IP为192.168.5.253</p>
+<p>再看<code>优先级</code>和<code>开销</code>：</p>
+<p>R4路由的f0&#x2F;0接口和f0&#x2F;1接口的优先级和开销都为0，匹配选择度高。</p>
+<p>R4的被设路由项额的优先级为1，,开销为0，在优先级上匹配选择度低于R3路由本身接口。</p>
+</li>
+<li><p><strong>网络连通测试</strong></p>
+<p>在**<code>1. 都配置静态路由</code>**中我为每位路由器配置的都是静态路由，网络连通测试结果如下</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9949ca06781ecde67899cfc8d75a5e00.png#pic_center" alt="3-1-9"></p>
+<center>
+    <b>
+        <small> 
+            图7.14&nbsp&nbsp&nbsp&nbsp P1连通P3、P1连通P2测试结果
+        </small>
+    </b>
+</center>
+
+<p>并未有特殊情况。</p>
+<p>在**<code>2. 配置静态路由和默认路由</code>**中我为R2路由器配置的是静态路由，R1、R3、R4三台路由器配置的是默认路由，网络连通测试结果如下</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/109e7a635ee7fcbeab040c846a03880c.png#pic_center" alt="3-1-33"></p>
+   <center>
+       <b>
+           <small> 
+               图7.15&nbsp&nbsp&nbsp&nbsp P1连通P2、P1连通P3测试结果
+           </small>
+       </b>
+   </center>
+
+<p>并连通测试P2时超时现象比较严重。</p>
+</li>
+<li><p><strong>路由跟踪测试</strong></p>
+<p>在**<code>1. 都配置静态路由</code>**中我为每位路由器配置的都是静态路由，路由跟踪测试结果如下</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/646c95d75da695f3c8e44e05226d75d4.png#pic_center" alt="3-1-11"></p>
+<center>
+    <b>
+        <small> 
+            图7.16&nbsp&nbsp&nbsp&nbsp P1跟踪P3测试结果
+        </small>
+    </b>
+</center>
+
+<p>.P1跟踪P3，经过IP顺序为 <code>PC1——R1(f0/0)——R2(f0/0)——R4(f0/0)——PC3</code>，图中的四行数据中的ip地址亦是对应顺序的节点IP。</p>
+<p>连通间隔距离一样的三个IP（192.168.1.254、192.168.2.254、192.168.5.254）时，网关地址和一个探针超时间隔，在连通间隔距离更远一级的IP（192.168.6.254）时，网关地址和两个探针超时间隔。</p>
+<blockquote>
+<p><code>* </code>意味着端口不可达或达到最大值（默认为30跳，并且可以使用-m标志进行更改），在每个ttl设置中发送三个探针，并打印一行，显示ttl，网关地址和每个探针的往返时间（所以三个*）。5秒钟内没有响应。超时间隔，将为该探针打印“ *”。</p>
+</blockquote>
+<p>在**<code>2. 配置静态路由和默认路由</code>**中我为R2路由器配置的是静态路由，R1、R3、R4三台路由器配置的是默认路由，网络连通测试结果如下</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/78e2aa7924fb58ab7e4cf73b61a9ccf2.png#pic_center" alt="3-1-20"></p>
+   <center>
+       <b>
+           <small> 
+               图7.17&nbsp&nbsp&nbsp&nbsp P1跟踪P3测试结果_1
+           </small>
+       </b>
+   </center>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ed7f678c0f8e25d6af0446917f19229f.png#pic_center" alt="3-1-21"></p>
+   <center>
+       <b>
+           <small> 
+               图7.18&nbsp&nbsp&nbsp&nbsp P1跟踪P3测试结果_2
+           </small>
+       </b>
+   </center>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1fd29e1b750861473e5a5cd9f2825b8c.png#pic_center" alt="3-1-22"></p>
+   <center>
+       <b>
+           <small> 
+               图7.19&nbsp&nbsp&nbsp&nbsp P1跟踪P3测试结果_3
+           </small>
+       </b>
+   </center>
+
+<p>其中<code>测试结果_1</code>是我在第一次配置完后第一次跟踪测试得到的结果，追踪一次后我就没继续尝试，结果第二天被强制初始化了；第二次配置完后无论追踪多少次，都得不到<code>测试结果_1</code>。</p>
+<p>可能是网路原因，网关和探针之间一直超时间隔；</p>
+<p>因为路径上节点数量累加起来没有30，所以原因排除达到最大值；</p>
+<p>也可能是因为不知名的路由设置错误，导致端口不可达。</p>
+<blockquote>
+<p><code>* * *</code>意味着该跃点的路由器不会响应用于跟踪路由的数据包类型，作为追踪者将不了解有关该跃点的任何信息（默认情况下，类Unix上为UDP，而在Windows上为ICMP）。</p>
+</blockquote>
+<p><code>测试结果_2</code>是我在第二次配置完后最少追踪十余次得到的结果。<code>测试结果_3</code>是追踪测试最常见的结果，相比于<code>都配置静态路由</code>时追踪的结果，因为默认直连<code>0.0.0.0</code>，所以少了一个网关和探针的超时间隔，或者说多了一个探针对网关的回应。</p>
+</li>
+</ol>
+<h2 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a>实验总结</h2><ol>
+<li><p><strong>子网规划</strong></p>
+<p>IP地址的网络规划我还有更多的理解，在实验正文不好阐述，在总结里继续。</p>
+<p>我原本的IP地址网络规划的第三段设置的是1~6递增，这样做的方便之处就是直接在进入主机位所在的第四段之前就已经区分了网段。这种方法是会造成一定的主机位浪费。</p>
+<p>虽然我的网段IP的第四段都是为匹配所需IP数所特意设的起始值，这样相比于起始值都设为0并没有什么进步空间，本质上所占用的位数是一样的，因为网段在第三段开始区分会导致后面的254份可分配IP都被隐形占用了，即使真正使用的IP不够254。</p>
+<p>所以在试验过后我仔细钻研，研究出了一套更加充分利用地址空间的<code>IP子网地址规划</code></p>
+<center>
+    <b>
+        <small> 
+            表8.1&nbsp&nbsp&nbsp&nbsp 新IP子网地址规划表
+        </small>
+    </b>
+</center>
+
+<table>
+<thead>
+<tr>
+<th align="center">网段序号</th>
+<th align="center">IP地址</th>
+<th align="center">子网掩码</th>
+<th align="center">所需IP数</th>
+<th align="center">网段类型</th>
+<th align="center">网关IP</th>
+<th>图中成员节点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">192.168.1.0</td>
+<td align="center">24</td>
+<td align="center">230</td>
+<td align="center">用户</td>
+<td align="center">192.168.1.254</td>
+<td>PC1、R1接口F0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">192.168.2.0</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">互连</td>
+<td align="center">无</td>
+<td>R1接口F0&#x2F;1、R2接口F0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">192.168.2.4</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">互连</td>
+<td align="center">无</td>
+<td>R2接口F0&#x2F;1、R3接口F0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">192.168.2.7</td>
+<td align="center">25</td>
+<td align="center">100</td>
+<td align="center">用户</td>
+<td align="center">192.168.2.9</td>
+<td>R3接口F0&#x2F;1、PC2</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">192.168.2.128</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">互连</td>
+<td align="center">无</td>
+<td>R2接口F1&#x2F;0、R4接口F0&#x2F;0</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">192.168.2.131</td>
+<td align="center">25</td>
+<td align="center">60</td>
+<td align="center">用户</td>
+<td align="center">192.168.2.133</td>
+<td>R4接口F0&#x2F;1、PC3</td>
+</tr>
+</tbody></table>
+   <center>
+       <b>
+           <small> 
+               表8.2&nbsp&nbsp&nbsp&nbsp 新IP地址分配表
+           </small>
+       </b>
+   </center>
+
+<table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">节点名称</th>
+<th align="center">IP地址&#x2F;子网掩码</th>
+<th align="center">网关IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">PC1</td>
+<td align="center">192.168.1.1&#x2F;24</td>
+<td align="center">192.168.1.254</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">R1接口F0&#x2F;0</td>
+<td align="center">192.168.1.254&#x2F;24</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">R1接口F0&#x2F;1</td>
+<td align="center">192.168.2.1&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">R2接口F0&#x2F;0</td>
+<td align="center">192.168.2.2&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">R2接口F0&#x2F;1</td>
+<td align="center">192.168.2.5&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">R3接口F0&#x2F;0</td>
+<td align="center">192.168.2.6&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">R3接口F0&#x2F;1</td>
+<td align="center">192.168.2.8&#x2F;25</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">PC2</td>
+<td align="center">192.168.2.126&#x2F;25</td>
+<td align="center">192.168.2.8</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">R2接口F1&#x2F;0</td>
+<td align="center">192.168.2.129&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">R4接口F0&#x2F;0</td>
+<td align="center">192.168.2.130&#x2F;30</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">R4接口F0&#x2F;1</td>
+<td align="center">192.168.2.132&#x2F;25</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">PC3</td>
+<td align="center">192.168.2.254&#x2F;25</td>
+<td align="center">192.168.2.132</td>
+</tr>
+</tbody></table>
+<p>相比于实验中所采用的子网地址规划，我的第二个网段到第六个网段的第三段值都设为<code>2</code>，第六个网段的子网掩码设为<code>25</code>充分利用了地址空间。</p>
+<p>旧方案的地址空间利用率为<code>25.984%</code></p>
+<p>（实际分配的IP数(扣除主机位全0全1)&#x2F;规定划分的IP数：<code>(230+100+60+3*2)/(254*6)</code>）</p>
+<p>而新方案的地址空间利用率为<code>78.884%</code></p>
+<p>（实际分配的IP数(扣除主机位全0全1)&#x2F;规定划分的IP数：<code>(230+100+60+3*2)/(254+119+123+3*2)</code>）</p>
+<p>新方案相比于旧方案节省了<code>67.060%</code>空间</p>
+<p>（(旧方案规定划分的IP数-新方案规定划分的IP数)&#x2F;旧方案规定划分的IP数）</p>
+<p>下面我将详细解释我这套方案的具体规划：</p>
+<p>在做完实验后我就想第二个网段到第六个网段之间所需IP数加起来不足254，这五个网段IP的第三段都设为2呢，即<code>192.168.2.x</code>这种，经过我长时间的分析这种方法是可行的。</p>
+<p>首先，要明确一点的是，主机位全0和全1是不分配给所需IP的主机的，所以像第二个网段的IP是<code>192.168.2.0</code>，网段内分配的IP只有<code>192.168.2.1</code>和<code>192.168.2.2</code>，<code>192.168.2.0</code>和<code>192.168.2.3</code>的<code>2位主机位</code>分别是全0和全1，所以不能使用。类似的，所有网段都是这样。所以每个网段的表示范围如下(<code>范围的两端IP在分配范围内</code>)：</p>
+   <center>
+       <b>
+           <small> 
+               表8.3&nbsp&nbsp&nbsp&nbsp IP网段分配IP范围表
+           </small>
+       </b>
+   </center>
+
+<table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">网段IP地址</th>
+<th align="center">子网掩码</th>
+<th align="center">所需IP数</th>
+<th align="center">分配IP范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">192.168.1.0</td>
+<td align="center">24</td>
+<td align="center">230</td>
+<td align="center">192.168.1.1~192.168.1.254</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">192.168.2.0</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">192.168.2.1~192.168.2.2</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">192.168.2.4</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">192.168.2.5~192.168.2.6</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">192.168.2.7</td>
+<td align="center">25</td>
+<td align="center">100</td>
+<td align="center">192.168.2.8~192.168.2.126</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">192.168.2.128</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">192.168.2.129~192.168.2.130</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">192.168.2.131</td>
+<td align="center">25</td>
+<td align="center">60</td>
+<td align="center">192.168.2.132~192.168.2.254</td>
+</tr>
+</tbody></table>
+<p>可能各位发现子网掩码是30，只需要分配2个IP的网段的表示范围只有<code>2</code>个，那<font color='red'>为什么子网掩码为25，分别需要分配100个IP和60个IP的第四网段及第六网段的表示范围分别有<code>119</code>个和<code>123</code>个呢？</font></p>
+<p>这就是将IP紧密分配在<code>192.168.2.x</code>网段内最容易犯错的点了。</p>
+<p>分配的时候可能会觉得所需多少IP，范围就表达多少就行，就像子网掩码是<code>30</code>的那几个网段就可以了，但是这个范围结果的背后的逻辑不是这么定的。</p>
+<p>我将采取画图的方式来解释这个范围结果的取值逻辑。 <img src="https://img-blog.csdnimg.cn/img_convert/3cf6d3e7610ac7e6ac544a904c18b5a0.png#pic_center" alt="3-1-34"></p>
+   <center>
+       <b>
+           <small> 
+               图8.1&nbsp&nbsp&nbsp&nbsp 分配IP范围表达
+           </small>
+       </b>
+   </center>
+
+<p>起始地址为192.168.2.<code>8</code>，因为192.168.2.<code>7</code>相对于子网掩码<code>30</code>相当于<code>主机位全1</code>，而相对于子网掩码<code>25</code>则只是分配范围内的一个IP（如果分配IP的最小值是192.168.2.0），所以192.168.2.<code>7</code>可以作为第四网段的网段IP，192.168.2.<code>8</code>作为第四网段的起始地址。</p>
+<p>如果按照惯性思维，将192.168.2.<code>107</code>作为分配IP最大值（107-8+1&#x3D;100），这在表达上是没问题的，但是请注意，子网掩码为<code>25</code>的前提下，主机位分配IP最大值为192.168.2.<code>126</code>（127就是主机位全1了，128进入下一网段）。这就意味着即使人为的讲分配IP最大值设为192.168.2.<code>107</code>,但是192.168.2.<code>108</code>~192.168.2.<code>126</code>依旧是该网段内的待分配IP，所以第四网段规定划分的IP数为126-8+1&#x3D;<code>129</code>个，而不是认为需要100个就是100个，空间利用率（100&#x2F;129）就是这么来的。</p>
+<p>那么现在还只剩第六网段待解析，第六网段的起始IP是192.168.2.<code>132</code>，如果子网掩码不改，依旧是<code>26</code>的话，第六网段分配IP最大值将为192.168.2.<code>190</code>，而<code>190-132+1=59&lt;60</code>，就比所需IP数少1个，导致该网段无法满足需求，所以更改子网掩码为<code>25</code>，将使网段内分配IP最大值拔到192.168.2.<code>254</code>，此时分配IP范围满足所需IP数（254-132+1&#x3D;123）。</p>
+<p>综上，是我对子网划分的进一步思考和探索，如有错误希望各位同志斧正。</p>
+</li>
+<li><p><strong>默认路由</strong></p>
+<p>edu上的知识点指导上给的默认路由例子是ip route <code>0 0 </code>10.10.10.10，但是这么输入会报错，真确命令格式应该是ip route<code>0.0.0.0 0.0.0.0</code>10.10.10.10。</p>
+</li>
+</ol>
+<p>以上就是我对此次实验的总结，很多总结的分析都在实验正文里表述出来，导致正文语句表述不够规范、总结中并无太多方面总结，如有错误，请各位同志斧正。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">MXBG</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/09/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%20IP%E7%BD%91%E7%BB%9C%E8%A7%84%E5%88%92%E4%B8%8E%E8%B7%AF%E7%94%B1%E8%AE%BE%E8%AE%A1/">http://example.com/2021/09/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%20IP%E7%BD%91%E7%BB%9C%E8%A7%84%E5%88%92%E4%B8%8E%E8%B7%AF%E7%94%B1%E8%AE%BE%E8%AE%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">丹青</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/experiment/">experiment</a><a class="post-meta__tags" href="/tags/note/">note</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/12/16/XSS%20&amp;%20SQL%20injection/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">XSS &amp; SQL injection</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/19/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%BA%8C%20S%E7%9B%92DPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">S盒DPA侧信道攻击</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/10/24/DeceCMS%20v5.7%20SP2%E6%AD%A3%E5%BC%8F%E7%89%88%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" title="DeceCMS v5.7 SP2正式版前台任意修改用户密码修改漏洞复现"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-24</div><div class="title">DeceCMS v5.7 SP2正式版前台任意修改用户密码修改漏洞复现</div></div></a></div><div><a href="/2020/12/15/CTF%20Practice/" title="CTF Practice"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-15</div><div class="title">CTF Practice</div></div></a></div><div><a href="/2020/11/07/Network%20scanning%20&%20Network%20investigation/" title="Network scanning & Network investigation"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-07</div><div class="title">Network scanning & Network investigation</div></div></a></div><div><a href="/2020/11/10/Network%20sniffer%20&%20Identity%20authentication/" title="Network sniffing & identity authentication"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-10</div><div class="title">Network sniffing & identity authentication</div></div></a></div><div><a href="/2020/12/16/XSS%20&%20SQL%20injection/" title="XSS & SQL injection"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-16</div><div class="title">XSS & SQL injection</div></div></a></div><div><a href="/2021/12/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%B8%89%20S%E7%9B%92CPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/" title="S盒CPA侧信道攻击"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-24</div><div class="title">S盒CPA侧信道攻击</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avator.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MXBG</div><div class="author-info__description">Воспоминания</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/WM-MXBG/WM-MXBG.github.io"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WM-MXBG" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:danqinghupo@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">во славу республики</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-number">1.</span> <span class="toc-text">实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E6%88%96%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">相关原理或知识点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1"><span class="toc-number">4.</span> <span class="toc-text">实验任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP%E7%BD%91%E7%BB%9C%E8%A7%84%E5%88%92"><span class="toc-number">5.</span> <span class="toc-text">IP网络规划</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number">6.</span> <span class="toc-text">网络基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E3%80%81%E9%BB%98%E8%AE%A4%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE"><span class="toc-number">7.</span> <span class="toc-text">静态路由、默认路由配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">实验总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/03/18/%E3%80%90VS%20Code%E3%80%91%E2%80%9CThe%20%E2%80%98clang-format%E2%80%98%20command%20is%20not%20available.%20Please%20check%20your%20clang-format.executable%E2%80%9C%E8%A7%A3%E5%86%B3/" title="【VS Code】“The ‘clang-format‘ command is not available. Please check your clang-format.executable“解决"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【VS Code】“The ‘clang-format‘ command is not available. Please check your clang-format.executable“解决"/></a><div class="content"><a class="title" href="/2022/03/18/%E3%80%90VS%20Code%E3%80%91%E2%80%9CThe%20%E2%80%98clang-format%E2%80%98%20command%20is%20not%20available.%20Please%20check%20your%20clang-format.executable%E2%80%9C%E8%A7%A3%E5%86%B3/" title="【VS Code】“The ‘clang-format‘ command is not available. Please check your clang-format.executable“解决">【VS Code】“The ‘clang-format‘ command is not available. Please check your clang-format.executable“解决</a><time datetime="2022-03-18T08:16:16.577Z" title="发表于 2022-03-18 16:16:16">2022-03-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/18/Node.js%E4%B8%AA%E4%BA%BA%E7%90%86%E8%A7%A3%E2%80%94%E2%80%94RESTful%20API/" title="RESTful API"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RESTful API"/></a><div class="content"><a class="title" href="/2022/03/18/Node.js%E4%B8%AA%E4%BA%BA%E7%90%86%E8%A7%A3%E2%80%94%E2%80%94RESTful%20API/" title="RESTful API">RESTful API</a><time datetime="2022-03-18T08:16:16.551Z" title="发表于 2022-03-18 16:16:16">2022-03-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/18/hello-world/" title="Hello World"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2022/03/18/hello-world/" title="Hello World">Hello World</a><time datetime="2022-03-18T07:00:21.920Z" title="发表于 2022-03-18 15:00:21">2022-03-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/26/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E5%AE%9E%E9%AA%8C%E5%9B%9B%20AES%20CPA%20%E6%94%BB%E5%87%BB/" title="AES CPA攻击"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AES CPA攻击"/></a><div class="content"><a class="title" href="/2021/12/26/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E5%AE%9E%E9%AA%8C%E5%9B%9B%20AES%20CPA%20%E6%94%BB%E5%87%BB/" title="AES CPA攻击">AES CPA攻击</a><time datetime="2021-12-26T14:03:09.000Z" title="发表于 2021-12-26 22:03:09">2021-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%B8%89%20S%E7%9B%92CPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/" title="S盒CPA侧信道攻击"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="S盒CPA侧信道攻击"/></a><div class="content"><a class="title" href="/2021/12/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E5%AE%9E%E9%AA%8C%E5%AE%9E%E9%AA%8C%E4%B8%89%20S%E7%9B%92CPA%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/" title="S盒CPA侧信道攻击">S盒CPA侧信道攻击</a><time datetime="2021-12-23T16:11:30.000Z" title="发表于 2021-12-24 00:11:30">2021-12-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By MXBG</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Record for self</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
